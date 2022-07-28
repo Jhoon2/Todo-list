@@ -1,0 +1,46 @@
+.todo_list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.todo_list-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.todo_item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 36px;
+}
+
+.todo_item:last-child {
+    margin-bottom: 0;
+}
+
+.todo_item-checkbox {
+    margin-right: 10px;
+}
+
+.todo_item-ctx {
+    flex: 1;
+}
+
+.todo_item-edit-btn, .todo_item-delete-btn {
+    border: none;
+    border-radius: 0;
+    height: 36px;
+    width: 36px;
+    background-color: inherit;
+}
+
+.todo_item-edit-btn:hover, .todo_item-delete-btn:hover {
+    cursor: pointer;
+    background-color: #d0ebff;
+}
+
+.todo_item-edit-btn {
+    margin-right: 3px;
+}
