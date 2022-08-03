@@ -1,63 +1,73 @@
-import React, { useRef, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { todoInsert } from '../../redux/modules/todoReducer';
+import styled from 'styled-components';
 
-const InputBox = ({ todoList, setTodoList }) => {
-  // value 값 데이터
+const InputBox = () => {
   const [text, setText] = useState('');
-  const inputRef = useRef(null);
+  const dispatch = useDispatch();
+  const nextId = useRef(0);
 
-  // value값 가져오기
   const onChangeInput = (e) => {
     setText(e.target.value);
   };
 
-  useEffect(() => {
-    console.log(todoList);
-  }, [todoList]);
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      onClickAddButton();
+    }
+  };
 
   const onClickAddButton = () => {
-    const nextTodoList = todoList.concat({
-      id: todoList.length,
-      text,
-      checked: false,
-      deleted: false,
-    });
-    setTodoList(nextTodoList);
-
+    dispatch(todoInsert(nextId.current, text, nextId));
+    nextId.current += 1;
     setText('');
-    inputRef.current.focus();
+    console.log(nextId, text);
   };
 
   return (
-    <div className="todoapp_inputbox">
-      <input
+    <TodoInputBox>
+      <TodoInputBoxInp
         type="text"
         name="todoItem"
         value={text}
-        ref={inputRef}
         placeholder="할 일을 입력해주세요"
-        className="todoapp_inputbox-inp"
         onChange={onChangeInput}
+        onKeyPress={onKeyPress}
       />
-      <button
-        type="submit"
-        className="todoapp_inputbox-add-btn"
-        onClick={onClickAddButton}
-      >
+      <TodoInputboxAddBtn type="submit" onClick={onClickAddButton}>
         추가
-      </button>
-    </div>
+      </TodoInputboxAddBtn>
+    </TodoInputBox>
   );
 };
 
-InputBox.propTypes = {
-  todoList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-    }).isRequired
-  ),
-  setTodoList: PropTypes.func.isRequired,
-};
-
 export default InputBox;
+
+const TodoInputBox = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const TodoInputBoxInp = styled.input`
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid #f1f3f5;
+  padding: 10px;
+  height: 50px;
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const TodoInputboxAddBtn = styled.button`
+  border: none;
+  border-radius: 0;
+  background-color: #d0ebff;
+  color: #1c7ed6;
+  height: 50px;
+  width: 50px;
+  font-weight: bold;
+`;

@@ -1,5 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const Header = () => <div className="header_tit">🏷️MY TO DO LIST</div>;
+const Header = () => <HeaderTitle>📒MY TO DO LIST</HeaderTitle>;
 
 export default Header;
+
+const HeaderTitle = styled.div`
+  margin: 0 auto;
+  font-size: 30px;
+  font-weight: bold;
+`;
